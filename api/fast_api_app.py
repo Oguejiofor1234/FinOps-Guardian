@@ -183,6 +183,16 @@ def get_compliance_stream():
     return {"logs": COMPLIANCE_STREAM_LOGS}
 
 
+@app.get("/demo-settings")
+def get_demo_settings():
+    """
+    Returns whether DEMO_MODE is active based on the environment flag.
+    """
+    import os
+    demo_mode = os.getenv("DEMO_MODE", "false").lower() == "true"
+    return {"demo_mode": demo_mode}
+
+
 @app.post("/expenses/submit", dependencies=[Depends(require_role([ROLE_EMPLOYEE, ROLE_MANAGER, ROLE_ADMIN]))])
 async def submit_expense(submission: ExpenseSubmission):
     """

@@ -754,3 +754,159 @@ tbody tr:hover {
 .hidden {
     display: none !important;
 }
+
+/* Demo Mode Toggle Switch Styles */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.demo-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--clr-text-muted);
+    user-select: none;
+}
+
+.demo-mode-toggle input {
+    display: none;
+}
+
+.toggle-slider {
+    position: relative;
+    width: 38px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--clr-border);
+}
+
+.toggle-slider:before {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--clr-text-muted);
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.demo-mode-toggle input:checked + .toggle-slider {
+    background-color: rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 0.4);
+}
+
+.demo-mode-toggle input:checked + .toggle-slider:before {
+    transform: translateX(18px);
+    background-color: var(--clr-primary);
+    box-shadow: 0 0 8px var(--clr-primary);
+}
+
+.demo-mode-toggle input:checked ~ .toggle-label {
+    color: var(--clr-text-main);
+    font-weight: 500;
+}
+
+/* Agent processing & idle indicators */
+.status-indicator.processing {
+    background-color: var(--clr-primary);
+    box-shadow: 0 0 12px var(--clr-primary);
+    animation: statusProcessingPulse 0.8s infinite alternate;
+}
+
+.status-indicator.idle {
+    background-color: var(--clr-text-muted);
+    box-shadow: none;
+    animation: none;
+    opacity: 0.4;
+    transition: all 0.3s ease;
+}
+
+@keyframes statusProcessingPulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.3); opacity: 1; }
+}
+
+/* Quick Demo Scenarios Buttons Styles */
+.demo-samples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--clr-border);
+    color: var(--clr-text-muted);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--clr-text-main);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn-outline:active {
+    transform: translateY(0);
+}
+
+/* Cinematic Demo Mode Banner */
+.demo-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    background: rgba(168, 85, 247, 0.04) !important;
+    border: 1px dashed rgba(168, 85, 247, 0.25) !important;
+    margin-bottom: 1.25rem;
+    animation: pulseBorder 2s infinite alternate ease-in-out;
+}
+
+@keyframes pulseBorder {
+    0% { border-color: rgba(168, 85, 247, 0.15); }
+    100% { border-color: rgba(168, 85, 247, 0.45); }
+}
+
+#demo-banner-text {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--clr-text-main);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--clr-accent), var(--clr-primary));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 10px var(--clr-primary);
+}

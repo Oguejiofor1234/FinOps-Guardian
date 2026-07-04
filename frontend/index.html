@@ -41,28 +41,28 @@
             <div class="agent-status-panel">
                 <div class="panel-title">Active AI Agents</div>
                 <div class="agent-item">
-                    <span class="status-indicator active"></span>
+                    <span class="status-indicator active" id="agent-indicator-router"></span>
                     <div class="agent-info">
                         <span class="agent-name">Root Router</span>
                         <span class="agent-role">System Orchestrator</span>
                     </div>
                 </div>
                 <div class="agent-item">
-                    <span class="status-indicator active"></span>
+                    <span class="status-indicator active" id="agent-indicator-shield"></span>
                     <div class="agent-info">
                         <span class="agent-name">PII Shield</span>
                         <span class="agent-role">Guardrail Scanning</span>
                     </div>
                 </div>
                 <div class="agent-item">
-                    <span class="status-indicator active"></span>
+                    <span class="status-indicator active" id="agent-indicator-auditor"></span>
                     <div class="agent-info">
                         <span class="agent-name">Compliance Auditor</span>
                         <span class="agent-role">Policy Enforcement</span>
                     </div>
                 </div>
                 <div class="agent-item">
-                    <span class="status-indicator active"></span>
+                    <span class="status-indicator active" id="agent-indicator-analyst"></span>
                     <div class="agent-info">
                         <span class="agent-name">Analyst Agent</span>
                         <span class="agent-role">Tax & GL Auto-mapping</span>
@@ -126,7 +126,14 @@
             <section class="workspace-grid">
                 <!-- Submit Panel -->
                 <div class="workspace-card glass" id="submit-section">
-                    <h2 class="section-title">✨ Submit Expense</h2>
+                    <div class="section-header">
+                        <h2 class="section-title">💸 Submit Expense</h2>
+                        <label class="demo-mode-toggle" title="Animate steps slowly for presentations">
+                            <input type="checkbox" id="demo-mode-checkbox" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label">Demo Mode</span>
+                        </label>
+                    </div>
                     
                     <div class="tab-container">
                         <button class="tab-btn active" onclick="switchSubmitTab('nlp')">Natural Language</button>
@@ -135,6 +142,15 @@
                     
                     <!-- NLP Form -->
                     <form id="nlp-expense-form" class="expense-form">
+                        <div class="form-group">
+                            <label style="margin-bottom: 0.5rem; display: block;">Quick Demo Scenarios</label>
+                            <div class="demo-samples">
+                                <button type="button" class="btn btn-sm btn-outline" onclick="fillDemoScenario('valid')">✅ Valid Claim</button>
+                                <button type="button" class="btn btn-sm btn-outline" onclick="fillDemoScenario('weekend')">⚠️ Weekend Trip</button>
+                                <button type="button" class="btn btn-sm btn-outline" onclick="fillDemoScenario('injection')">🛑 Prompt Injection</button>
+                                <button type="button" class="btn btn-sm btn-outline" onclick="fillDemoScenario('receipt')">📎 Missing Receipt</button>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="nlp-text">Describe the expense in plain English</label>
                             <textarea id="nlp-text" placeholder="e.g., Spent $45.20 on a business client lunch at Cafe Oasis on 2026-06-30. The receipt is attached." required></textarea>
@@ -193,6 +209,17 @@
                         <h2 class="section-title">⚡ Compliance Stream</h2>
                         <button class="btn btn-sm btn-clear-logs" onclick="clearLiveLogs()">Clear</button>
                     </div>
+                    
+                    <!-- Cinematic Demo Mode Banner -->
+                    <div id="demo-cinematic-banner" class="demo-banner glass hidden">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: space-between;">
+                            <span id="demo-banner-text">🛡️ Guardrails Scanning...</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div id="demo-banner-progress" class="progress-bar"></div>
+                        </div>
+                    </div>
+                    
                     <div class="log-stream-container">
                         <div class="log-entries" id="log-entries">
                             <div class="log-entry info">
