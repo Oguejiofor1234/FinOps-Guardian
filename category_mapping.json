@@ -1,0 +1,44 @@
+{
+  "meals": {
+    "gl_code": "6200",
+    "cost_center": "CC-MARKETING",
+    "tax_code": "ME-50",
+    "description": "Meals & Entertainment - 50% deductibility"
+  },
+  "travel": {
+    "gl_code": "6100",
+    "cost_center": "CC-SALES",
+    "tax_code": "TRV-100",
+    "description": "Travel & Lodging - 100% deductibility"
+  },
+  "office": {
+    "gl_code": "6300",
+    "cost_center": "CC-OPS",
+    "tax_code": "OFF-100",
+    "description": "Office Supplies - 100% deductibility"
+  },
+  "office supplies": {
+    "gl_code": "6300",
+    "cost_center": "CC-OPS",
+    "tax_code": "OFF-100",
+    "description": "Office Supplies - 100% deductibility"
+  },
+  "software": {
+    "gl_code": "6400",
+    "cost_center": "CC-ENG",
+    "tax_code": "SaaS-100",
+    "description": "Software / SaaS - 100% deductibility"
+  },
+  "training": {
+    "gl_code": "6500",
+    "cost_center": "CC-HR",
+    "tax_code": "GEN-TAX",
+    "description": "Training & Development - General Tax deduction"
+  },
+  "other": {
+    "gl_code": "6900",
+    "cost_center": "CC-CORP",
+    "tax_code": "GEN-TAX",
+    "description": "General Expense - Review required"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Starbucks Coffee",
+  "amount": -5.20,
+  "category": "meals",
+  "expense_date": "2026-06-30",
+  "has_receipt": true,
+  "has_itinerary": false
+}

@@ -1,0 +1,13 @@
+metrics_to_run:
+  - custom_response_quality
+  - agent_turn_count
+
+custom_metrics:
+  # Local LLM-as-judge defined in metrics.py (works on both Vertex AI and Google AI Studio)
+  - name: custom_response_quality
+    custom_function_file: metrics.py
+  - name: agent_turn_count
+    custom_function: |
+      def evaluate(instance):
+          turns = (instance.get("agent_data") or {}).get("turns", [])
+          return {'score': len(turns)}

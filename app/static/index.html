@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinOps Guardian — Expense Compliance Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">FinOps <span class="accent-text">Guardian</span></span>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#dashboard" class="nav-link active">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#submit" class="nav-link">
+                    <span class="icon">💸</span> Submit Expense
+                </a>
+                <a href="#audit" class="nav-link">
+                    <span class="icon">🔍</span> Audit Queue
+                </a>
+                <a href="#settings" class="nav-link">
+                    <span class="icon">⚙️</span> Policy Settings
+                </a>
+            </nav>
+            
+            <div class="agent-status-panel">
+                <div class="panel-title">Active AI Agents</div>
+                <div class="agent-item">
+                    <span class="status-indicator active"></span>
+                    <div class="agent-info">
+                        <span class="agent-name">Root Router</span>
+                        <span class="agent-role">System Orchestrator</span>
+                    </div>
+                </div>
+                <div class="agent-item">
+                    <span class="status-indicator active"></span>
+                    <div class="agent-info">
+                        <span class="agent-name">Auditor Agent</span>
+                        <span class="agent-role">Compliance checker</span>
+                    </div>
+                </div>
+                <div class="agent-item">
+                    <span class="status-indicator active"></span>
+                    <div class="agent-info">
+                        <span class="agent-name">Analyst Agent</span>
+                        <span class="agent-role">Tax mapper</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome-msg">
+                    <h1>Expense Compliance Dashboard</h1>
+                    <p class="subtitle">AI-assisted real-time policy auditing & ledger ingestion</p>
+                </div>
+                <div class="user-profile">
+                    <span class="avatar">👤</span>
+                    <span class="username">Admin Session</span>
+                </div>
+            </header>
+
+            <!-- Metrics grid -->
+            <section class="metrics-grid">
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">Total Audited Claims</span>
+                        <span class="metric-icon">💰</span>
+                    </div>
+                    <div class="metric-value">$148,250.00</div>
+                    <div class="metric-trend up">↗ 12.5% this month</div>
+                </div>
+                
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">Policy Violations</span>
+                        <span class="metric-icon alert-icon">⚠️</span>
+                    </div>
+                    <div class="metric-value">12</div>
+                    <div class="metric-trend down">↘ 4% from last month</div>
+                </div>
+
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">Compliance Ratio</span>
+                        <span class="metric-icon">🛡️</span>
+                    </div>
+                    <div class="metric-value">94.8%</div>
+                    <div class="metric-trend up">↗ 1.2% this month</div>
+                </div>
+
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">Tax Deduction Savings</span>
+                        <span class="metric-icon">💡</span>
+                    </div>
+                    <div class="metric-value">$4,820.00</div>
+                    <div class="metric-trend up">↗ 8.9% target achieved</div>
+                </div>
+            </section>
+
+            <!-- Content Workspace -->
+            <div class="content-workspace">
+                <!-- Submit Form Panel -->
+                <div class="workspace-card glass large-card">
+                    <h2 class="section-title">New Expense Submission</h2>
+                    <form id="expense-form" class="expense-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="title">Expense Title / Merchant</label>
+                                <input type="text" id="title" placeholder="e.g., Uber Ride to Client Meeting" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount ($)</label>
+                                <input type="number" id="amount" step="0.01" placeholder="0.00" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category">
+                                    <option value="meals">Meals & Entertainment</option>
+                                    <option value="travel">Travel & Lodging</option>
+                                    <option value="office">Office Supplies</option>
+                                    <option value="software">Software / SaaS</option>
+                                    <option value="other">Uncategorized / Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Expense Date</label>
+                                <input type="date" id="date" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Receipt Upload</label>
+                            <div class="file-dropzone" id="dropzone">
+                                <span class="dropzone-icon">📁</span>
+                                <span class="dropzone-text">Drag receipt image here or click to browse</span>
+                                <input type="file" id="receipt-file" style="display: none;">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit to FinOps Guardian</button>
+                    </form>
+                </div>
+
+                <!-- Real-time Agent Log Stream -->
+                <div class="workspace-card glass side-card">
+                    <h2 class="section-title">Compliance Stream</h2>
+                    <div class="log-stream-container">
+                        <div class="stream-header">
+                            <span class="stream-title">Live Agent Audit Output</span>
+                            <span class="badge active-badge">Websocket Connected</span>
+                        </div>
+                        <div class="log-entries" id="log-entries">
+                            <div class="log-entry info">
+                                <span class="log-time">12:30:15</span>
+                                <span class="log-text">FinOps Guardian App initialized. Standby for submissions.</span>
+                            </div>
+                            <div class="log-entry success">
+                                <span class="log-time">12:31:02</span>
+                                <span class="log-text">Audited Uber taxi receipt: $45.20. Compliant. Committed to ERP ledger.</span>
+                            </div>
+                            <div class="log-entry warning">
+                                <span class="log-time">12:34:55</span>
+                                <span class="log-text">PII Shield: Redacted credit card number from dinner receipt.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HITL manager review queue -->
+            <section class="hitl-section">
+                <div class="workspace-card glass full-width">
+                    <h2 class="section-title">Human-in-the-Loop Review Queue</h2>
+                    <table class="hitl-table">
+                        <thead>
+                            <tr>
+                                <th>Claim ID</th>
+                                <th>Submitted By</th>
+                                <th>Merchant</th>
+                                <th>Amount</th>
+                                <th>Risk Flags</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CLAIM-809</td>
+                                <td>John Doe</td>
+                                <td>Sunday Steakhouse</td>
+                                <td class="amount-val">$320.00</td>
+                                <td><span class="flag flag-high">Weekend Expense</span> <span class="flag flag-high">Exceeded Meals limit ($75)</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-success">Approve</button>
+                                    <button class="btn btn-sm btn-danger">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CLAIM-812</td>
+                                <td>Sarah Jenkins</td>
+                                <td>Github Enterprise</td>
+                                <td class="amount-val">$600.00</td>
+                                <td><span class="flag flag-med">Software exceeds $500 limit</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-success">Approve</button>
+                                    <button class="btn btn-sm btn-danger">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Application Script -->
+    <script src="main.js"></script>
+</body>
+</html>

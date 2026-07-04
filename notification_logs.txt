@@ -1,0 +1,1 @@
+[2026-07-03T14:55:47.942332] Channel: EMAIL | To: employee@company.com | Subject: Expense Claim Rejected | Message: We regret to inform you that your expense claim 'Duplicate Flight Ticket' ($600.00) was rejected. Reason: Suspected duplicate transaction. Session: session-999

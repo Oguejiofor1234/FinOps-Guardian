@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinOps Guardian — Expense Compliance Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="glow-bg bg-1"></div>
+    <div class="glow-bg bg-2"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span class="logo-icon">🛡️</span>
+                <span class="logo-text">FinOps <span class="accent-text">Guardian</span></span>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#dashboard" class="nav-link active">
+                    <span class="icon">📊</span> Dashboard
+                </a>
+                <a href="#submit" class="nav-link">
+                    <span class="icon">💸</span> Submit Expense
+                </a>
+                <a href="#queue" class="nav-link">
+                    <span class="icon">⏳</span> HITL Queue
+                </a>
+                <a href="#audit" class="nav-link">
+                    <span class="icon">🔍</span> Audit Trail
+                </a>
+            </nav>
+            
+            <div class="agent-status-panel">
+                <div class="panel-title">Active AI Agents</div>
+                <div class="agent-item">
+                    <span class="status-indicator active"></span>
+                    <div class="agent-info">
+                        <span class="agent-name">Root Router</span>
+                        <span class="agent-role">System Orchestrator</span>
+                    </div>
+                </div>
+                <div class="agent-item">
+                    <span class="status-indicator active"></span>
+                    <div class="agent-info">
+                        <span class="agent-name">PII Shield</span>
+                        <span class="agent-role">Guardrail Scanning</span>
+                    </div>
+                </div>
+                <div class="agent-item">
+                    <span class="status-indicator active"></span>
+                    <div class="agent-info">
+                        <span class="agent-name">Compliance Auditor</span>
+                        <span class="agent-role">Policy Enforcement</span>
+                    </div>
+                </div>
+                <div class="agent-item">
+                    <span class="status-indicator active"></span>
+                    <div class="agent-info">
+                        <span class="agent-name">Analyst Agent</span>
+                        <span class="agent-role">Tax & GL Auto-mapping</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome-msg">
+                    <h1>Expense Compliance Dashboard</h1>
+                    <p class="subtitle">AI-assisted real-time policy auditing & ledger ingestion</p>
+                </div>
+                <div class="system-status">
+                    <span class="badge badge-pulse">● System Operational</span>
+                </div>
+            </header>
+
+            <!-- Metrics grid -->
+            <section class="metrics-grid">
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">Approved Spend</span>
+                        <span class="metric-icon">💰</span>
+                    </div>
+                    <div class="metric-value" id="metric-approved-spend">$0.00</div>
+                    <div class="metric-trend up" id="metric-approved-count">0 Claims approved</div>
+                </div>
+                
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">High-Risk Flagged</span>
+                        <span class="metric-icon alert-icon">⚠️</span>
+                    </div>
+                    <div class="metric-value text-red" id="metric-flagged-count">0</div>
+                    <div class="metric-trend text-red" id="metric-flagged-percentage">0% of total audited</div>
+                </div>
+
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">HITL Queue size</span>
+                        <span class="metric-icon">⏳</span>
+                    </div>
+                    <div class="metric-value text-amber" id="metric-pending-count">0</div>
+                    <div class="metric-trend text-amber">Awaiting manager review</div>
+                </div>
+
+                <div class="metric-card glass">
+                    <div class="metric-header">
+                        <span class="metric-label">Rejected Claims</span>
+                        <span class="metric-icon">❌</span>
+                    </div>
+                    <div class="metric-value" id="metric-rejected-count">0</div>
+                    <div class="metric-trend">Prevented non-compliance</div>
+                </div>
+            </section>
+
+            <!-- Workspace split panel -->
+            <section class="workspace-grid">
+                <!-- Submit Panel -->
+                <div class="workspace-card glass" id="submit-section">
+                    <h2 class="section-title">✨ Submit Expense</h2>
+                    
+                    <div class="tab-container">
+                        <button class="tab-btn active" onclick="switchSubmitTab('nlp')">Natural Language</button>
+                        <button class="tab-btn" onclick="switchSubmitTab('structured')">Structured Form</button>
+                    </div>
+                    
+                    <!-- NLP Form -->
+                    <form id="nlp-expense-form" class="expense-form">
+                        <div class="form-group">
+                            <label for="nlp-text">Describe the expense in plain English</label>
+                            <textarea id="nlp-text" placeholder="e.g., Spent $45.20 on a business client lunch at Cafe Oasis on 2026-06-30. The receipt is attached." required></textarea>
+                            <span class="help-text">Mention details like amount, date (YYYY-MM-DD), merchant name, category, and receipt status.</span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Process Claim</button>
+                    </form>
+
+                    <!-- Structured Form (Hidden by default) -->
+                    <form id="structured-expense-form" class="expense-form hidden">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="form-title">Merchant / Description</label>
+                                <input type="text" id="form-title" placeholder="e.g., Github Enterprise License">
+                            </div>
+                            <div class="form-group">
+                                <label for="form-amount">Amount ($)</label>
+                                <input type="number" id="form-amount" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="form-category">Category</label>
+                                <select id="form-category">
+                                    <option value="meals">Meals & Entertainment</option>
+                                    <option value="travel">Travel & Lodging</option>
+                                    <option value="software">Software / SaaS</option>
+                                    <option value="office">Office Supplies</option>
+                                    <option value="other">Other / General</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="form-date">Expense Date</label>
+                                <input type="date" id="form-date">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Receipt Status</label>
+                            <div class="checkbox-row">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="form-receipt" checked>
+                                    Receipt is attached
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Compile & Submit</button>
+                    </form>
+                </div>
+
+                <!-- Live Stream Log Panel -->
+                <div class="workspace-card glass" id="live-logs-section">
+                    <div class="section-header">
+                        <h2 class="section-title">⚡ Compliance Stream</h2>
+                        <button class="btn btn-sm btn-clear-logs" onclick="clearLiveLogs()">Clear</button>
+                    </div>
+                    <div class="log-stream-container">
+                        <div class="log-entries" id="log-entries">
+                            <div class="log-entry info">
+                                <span class="log-time">System</span>
+                                <span class="log-text">FinOps Guardian App initialized. Standby for submissions.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HITL Manager Queue -->
+            <section class="hitl-section" id="queue-section">
+                <div class="workspace-card glass">
+                    <h2 class="section-title">⏳ Human-in-the-Loop Review Queue</h2>
+                    <div class="table-container">
+                        <table class="hitl-table" id="hitl-table">
+                            <thead>
+                                <tr>
+                                    <th>Session ID</th>
+                                    <th>Title / Description</th>
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                    <th>Risk Level</th>
+                                    <th>Reason / Pending Input</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="empty-row">
+                                    <td colspan="7">No claims currently pending review. Submissions requiring approval will appear here.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Audit Trail -->
+            <section class="audit-section" id="audit-section">
+                <div class="workspace-card glass">
+                    <h2 class="section-title">🔍 Ledger Audit Trail</h2>
+                    <div class="table-container">
+                        <table class="audit-table" id="audit-table">
+                            <thead>
+                                <tr>
+                                    <th>Txn ID</th>
+                                    <th>Merchant</th>
+                                    <th>Amount</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>GL Code</th>
+                                    <th>Cost Center</th>
+                                    <th>Tax Code</th>
+                                    <th>Risk</th>
+                                    <th>Approval Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="empty-row">
+                                    <td colspan="10">No transactions recorded in PostgreSQL ledger.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Receipt Upload Prompt Modal -->
+    <div class="modal" id="receipt-modal">
+        <div class="modal-content glass">
+            <h3>📎 Upload Receipt</h3>
+            <p>The compliance engine flagged this claim for a missing receipt. Please enter the receipt image path to continue:</p>
+            <div class="form-group">
+                <input type="text" id="receipt-upload-path" placeholder="e.g. /receipts/uber_txn_809.jpg" required>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-success" id="submit-receipt-btn">Submit Receipt</button>
+                <button class="btn btn-danger" onclick="closeReceiptModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="static/app.js?v=1.0.3"></script>
+</body>
+</html>

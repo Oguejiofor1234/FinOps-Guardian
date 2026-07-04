@@ -1,0 +1,8 @@
+{
+  "title": "Uber Trip to Client Office",
+  "amount": 42.50,
+  "category": "travel",
+  "expense_date": "2026-06-30",
+  "has_receipt": true,
+  "has_itinerary": false
+}

@@ -1,0 +1,74 @@
+{
+  "tools": [
+    {
+      "name": "write_expense",
+      "description": "Writes an audited and approved corporate expense claim into the PostgreSQL ERP ledger. Returns the transaction receipt and transaction ID.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "The expense title/merchant description." },
+          "amount": { "type": "number", "description": "The expense amount in USD." },
+          "category": { "type": "string", "description": "The category (meals, travel, office, software, training, other)." },
+          "expense_date": { "type": "string", "description": "The date of the transaction (YYYY-MM-DD)." },
+          "has_receipt": { "type": "boolean", "description": "True if receipt is present." },
+          "has_itinerary": { "type": "boolean", "description": "True if travel itinerary is present." },
+          "risk_level": { "type": "string", "description": "LOW, MEDIUM, or HIGH." },
+          "tax_code": { "type": "string", "description": "The tax deductibility code." },
+          "gl_code": { "type": "string", "description": "General Ledger account code." },
+          "cost_center": { "type": "string", "description": "Cost center identifier." },
+          "saving_insight": { "type": "string", "description": "Actionable saving insight." },
+          "tax_deductibility": { "type": "string", "description": "Explanation of tax deductibility." },
+          "manager_decision": { "type": "string", "default": "APPROVE" },
+          "approval_status": { "type": "string", "default": "APPROVED" }
+        },
+        "required": [
+          "title",
+          "amount",
+          "category",
+          "expense_date",
+          "has_receipt",
+          "has_itinerary",
+          "risk_level",
+          "tax_code",
+          "gl_code",
+          "cost_center",
+          "saving_insight",
+          "tax_deductibility"
+        ]
+      }
+    },
+    {
+      "name": "search_expenses",
+      "description": "Searches the historical PostgreSQL ERP ledger for matching expense records by title query or category.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Title query search term (case-insensitive)." },
+          "category": { "type": "string", "description": "The specific category to filter by." }
+        }
+      }
+    },
+    {
+      "name": "check_duplicate_claim",
+      "description": "Scans the PostgreSQL ledger to check if a identical claim has been submitted within a 48-hour window of the target date.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "amount": { "type": "number" },
+          "category": { "type": "string" },
+          "expense_date": { "type": "string" }
+        },
+        "required": ["title", "amount", "category", "expense_date"]
+      }
+    },
+    {
+      "name": "generate_summary",
+      "description": "Generates a financial summary of all expense records in the ledger, including transaction counts, total spend, and category breakdowns.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}

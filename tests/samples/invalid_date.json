@@ -1,0 +1,8 @@
+{
+  "title": "Staples Office Paper",
+  "amount": 15.00,
+  "category": "office",
+  "expense_date": "not-a-date",
+  "has_receipt": true,
+  "has_itinerary": false
+}

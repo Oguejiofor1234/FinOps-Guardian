@@ -1,0 +1,173 @@
+{
+  "eval_cases": [
+    {
+      "prompt": {
+        "parts": [
+          {
+            "text": "Hello, what can you help me with?"
+          }
+        ],
+        "role": "user"
+      },
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "Validation failed: 1 validation error for ExpenseReport\namount\n  Value error, Expense amount must be greater than zero. [type=value_error, input_value=0.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+              }
+            ],
+            "role": "user"
+          }
+        }
+      ],
+      "eval_case_id": "greeting",
+      "agent_data": {
+        "agents": {
+          "finops_workflow": {
+            "agent_id": "finops_workflow",
+            "agent_type": "Workflow",
+            "description": "Ties expense parsing, security guardrails, root coordinator, auditor, human-in-the-loop approvals, tax analysis, ERP commits, and notifications into a single secure pipeline.",
+            "tools": [],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "finops_workflow",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Validation failed: 1 validation error for ExpenseReport\namount\n  Value error, Expense amount must be greater than zero. [type=value_error, input_value=0.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prompt": {
+        "parts": [
+          {
+            "text": "What's the weather like in San Francisco?"
+          }
+        ],
+        "role": "user"
+      },
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "Validation failed: 1 validation error for ExpenseReport\namount\n  Value error, Expense amount must be greater than zero. [type=value_error, input_value=0.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+              }
+            ],
+            "role": "user"
+          }
+        }
+      ],
+      "eval_case_id": "weather_query",
+      "agent_data": {
+        "agents": {
+          "finops_workflow": {
+            "agent_id": "finops_workflow",
+            "agent_type": "Workflow",
+            "description": "Ties expense parsing, security guardrails, root coordinator, auditor, human-in-the-loop approvals, tax analysis, ERP commits, and notifications into a single secure pipeline.",
+            "tools": [],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "finops_workflow",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Validation failed: 1 validation error for ExpenseReport\namount\n  Value error, Expense amount must be greater than zero. [type=value_error, input_value=0.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prompt": {
+        "parts": [
+          {
+            "text": "What is the capital of France?"
+          }
+        ],
+        "role": "user"
+      },
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "Validation failed: 1 validation error for ExpenseReport\namount\n  Value error, Expense amount must be greater than zero. [type=value_error, input_value=0.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+              }
+            ],
+            "role": "user"
+          }
+        }
+      ],
+      "reference": {
+        "response": {
+          "parts": [
+            {
+              "text": "The capital of France is Paris."
+            }
+          ],
+          "role": "model"
+        }
+      },
+      "eval_case_id": "capital_lookup",
+      "agent_data": {
+        "agents": {
+          "finops_workflow": {
+            "agent_id": "finops_workflow",
+            "agent_type": "Workflow",
+            "description": "Ties expense parsing, security guardrails, root coordinator, auditor, human-in-the-loop approvals, tax analysis, ERP commits, and notifications into a single secure pipeline.",
+            "tools": [],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "finops_workflow",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Validation failed: 1 validation error for ExpenseReport\namount\n  Value error, Expense amount must be greater than zero. [type=value_error, input_value=0.0, input_type=float]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error"
+                    }
+                  ],
+                  "role": "user"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
