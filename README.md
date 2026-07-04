@@ -23,21 +23,9 @@ FinOps Guardian solves this by implementing an end-to-end, multi-stage complianc
 
 ---
 
-## 🎓 Google 5-Day AI Agents Intensive: Course Concepts Demonstration
+## 💡 Why This Project Matters
 
-The table below illustrates how the **FinOps Guardian** architecture directly implements the core concepts taught during the **5-Day AI Agents: Intensive Vibe Coding Course with Google**:
-
-| Google Course Concept | How FinOps Guardian Demonstrates It |
-| :--- | :--- |
-| **✅ ADK (Agent Development Kit)** | A Root Compliance Agent orchestrates the entire workflow. It receives the expense report, invokes specialized agents, manages execution order, handles branching, retries, and coordinates the complete business process. |
-| **✅ Multi-Agent Systems** | The project uses multiple specialized agents working together: Root Compliance Agent, Auditor Agent, Analyst Agent, and Notification Agent. Each has a single responsibility and collaborates through the ADK workflow rather than one monolithic LLM. |
-| **✅ MCP Servers** | Multiple MCP servers provide external capabilities without hardcoding integrations into the agents: ERP/Database MCP Server, Notification MCP Server, Receipt & OCR MCP Server, and Policy & Reference MCP Server. These demonstrate real-world tool integration. |
-| **✅ Agent Skills** | Each agent is driven by reusable `SKILL.md` files. Examples include Expense Parsing, Policy Validation, Tax Mapping, Risk Scoring, Receipt Verification, Insight Generation, and Report Generation. Skills separate domain knowledge from orchestration logic. |
-| **✅ Security** | Enterprise-grade guardrails are applied before any LLM reasoning or external calls. These include PII redaction, prompt injection detection, secret detection, approval guardrails, audit logging, role-based access control (RBAC), and secure handling of sensitive financial data. |
-| **✅ Human-in-the-Loop** | Expenses that exceed approval thresholds, trigger fraud rules, or contain suspicious content are routed to a manager approval node. The manager can Approve, Reject, or Request More Information before the workflow continues. |
-| **✅ Observability** | Every agent invocation is recorded with structured logs, metrics, traces, and immutable audit records. The dashboard displays workflow execution, risk scores, approval history, token usage, latency, and business KPIs while ensuring no PII is logged. |
-| **✅ Evaluation** | We built an evaluation dataset containing normal expenses, fraudulent claims, duplicate submissions, missing receipts, prompt injection attempts, and PII leakage scenarios. Automated evaluation measures compliance accuracy, risk classification, guardrail effectiveness, tool correctness, and latency. |
-| **✅ Deployment** | The solution is packaged with Docker, exposed through FastAPI, deployed on Google Cloud Run, with CI/CD through GitHub Actions, secrets managed via Secret Manager, logs sent to Cloud Logging, and models running through Vertex AI/Gemini (or another supported provider). |
+Rather than demonstrating isolated examples of AI agents, FinOps Guardian combines every major engineering concept from Google's AI Agents course into a single production-ready enterprise system. It showcases secure multi-agent orchestration, reusable agent skills, MCP-based integrations, deterministic guardrails, human oversight, comprehensive evaluation, observability, and cloud-native deployment, illustrating how modern agentic AI can safely automate financial compliance workflows at enterprise scale.
 
 ---
 
