@@ -145,6 +145,7 @@ gcloud run deploy finops-guardian-ui \
 
 ## 🎓 7. Judges Demo Script
 A complete walk-through of testing scenario scripts is located inside:
+* **[Markdown Demo Script](docs/finops_guardian_judges_demo_script.md)**
 * **[Word Document Script](docs/finops_guardian_judges_demo_script.docx)**
 * **Live App URL**: [FinOps Guardian Live Dashboard](https://finops-guardian-ui-195678548981.us-east1.run.app)
 
