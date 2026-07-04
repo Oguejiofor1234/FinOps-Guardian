@@ -32,7 +32,13 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
-        client_ip = request.client.host if request.client else "unknown"
+        # Resolve real client IP behind proxy (e.g. Cloud Run GFE)
+        forwarded_for = request.headers.get("x-forwarded-for")
+        if forwarded_for:
+            client_ip = forwarded_for.split(",")[0].strip()
+        else:
+            client_ip = request.client.host if request.client else "unknown"
+            
         now = time.time()
         
         # Filter request history to current window
