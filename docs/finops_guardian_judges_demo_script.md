@@ -44,7 +44,7 @@ Employee Jane Smith (EMP-001) from the Sales department is requesting reimbursem
 * Dashboard updated with the latest total spend.
 Outcome: End-to-end AI processing completes successfully with security validation, compliance checking, ERP integration, and real-time dashboard updates.
 
-*Note: Demo 1 expected UI state is shown in the dashboard.*
+![Demo 1 Expected UI State](images/demo1_ui_state.png)
 
 ---
 
@@ -66,7 +66,7 @@ Mark Johnson (Employee ID: EMP-002) from the Marketing department submitted a tr
 * Slack notification sent to the approver.
 Outcome: The system detects a high-risk policy exception, prevents automatic approval, and escalates the claim for human review.
 
-*Note: Demo 2 expected UI state is shown in the dashboard.*
+![Demo 2 Expected UI State](images/demo2_ui_state.png)
 
 # Demo 3: Prompt Injection Expense
 
@@ -85,7 +85,7 @@ Alex Brown (Employee ID: EMP-003) from the Engineering department submitted a so
 * Slack security alert sent to the approver.
 Outcome: The system detects and blocks a prompt injection attempt, prevents unauthorized AI approval, and escalates the claim for human review.
 
-*Note: Demo 3 expected UI state is shown in the dashboard.*
+![Demo 3 Expected UI State](images/demo3_ui_state.png)
 
 ---
 
@@ -107,4 +107,4 @@ Mary Wilson (Employee ID: EMP-004) from the Operations department submitted a tr
 * Slack notification sent to the approver.
 Outcome: The system detects a documentation policy violation, blocks automatic approval, and prevents unsupported expenses from being posted to the ERP system.
 
-*Note: Demo 4 expected UI state is shown in the dashboard.*
+![Demo 4 Expected UI State](images/demo4_ui_state.png)
