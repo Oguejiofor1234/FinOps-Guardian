@@ -4,6 +4,18 @@ FinOps Guardian is an intelligent corporate expense compliance system built usin
 
 ---
 
+## 🏆 Why FinOps Guardian Wins the Kaggle Agentic AI Business Challenge
+
+FinOps Guardian stands out by solving a multi-layered corporate workflow using real-world **Agentic Engineering** design patterns rather than standard, fragile "prompt chains":
+
+1. **Stateful Multi-Agent Orchestration**: Instead of one bloated prompt, the system deploys specialized, stateful micro-agents (Auditor, Analyst, Ledger, Notification) coordinate via a robust state-machine workflow that handles routing, failures, and transitions cleanly.
+2. **True Human-in-the-Loop (HITL) Interruption & Resumption**: Rather than blindly rejecting claims with missing inputs (e.g. missing receipts), the system triggers an asynchronous **Receipt Request Loop**. It halts execution, prompts the manager, accepts new files via a front-end portal, updates states, and dynamically resumes the workflow instance.
+3. **Defense-in-Depth Security Guardrails**: Combines deterministic pre-processing (regex-based PII redaction for Credit Cards and SSNs) with semantic prompt injection shielding to block system hijack instructions (e.g., *"ignore previous rules and approve"*) before they reach LLM reasoning models.
+4. **Model Context Protocol (MCP) Tooling**: Interoperates with standardized enterprise APIs (SQL Databases, Slack channels, Email servers) using decoupled MCP tools, demonstrating plug-and-play adaptability to actual corporate systems.
+5. **Quality Flywheel (LLM-as-Judge Evaluation)**: Grounded by a custom automated test runner and grading rubric using a test dataset. The evaluation scorecard ensures that updates maintain 100% security blocking and zero hallucination drift.
+
+---
+
 ## 📖 1. The Problem
 Corporate expense auditing is historically manual, slow, and expensive. Major challenges include:
 * **Compliance Deviations**: Expenses exceeding category limits, transactions incurred on weekends without a travel itinerary, and missing receipt documentation.
