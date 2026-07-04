@@ -43,8 +43,13 @@ Employee Jane Smith (EMP-001) from the Sales department is requesting reimbursem
 * Slack & Email notifications sent.
 * Dashboard updated with the latest total spend.
 Outcome: End-to-end AI processing completes successfully with security validation, compliance checking, ERP integration, and real-time dashboard updates.
-Demo 1 expected UI state
-Demo 2: High-Risk Expense
+
+*Note: Demo 1 expected UI state is shown in the dashboard.*
+
+---
+
+# Demo 2: High-Risk Expense
+
 Judge action: Paste this claim into Submit Expense, attach receipt only where stated, and click Process Claim.
 Mark Johnson (Employee ID: EMP-002) from the Marketing department submitted a travel expense claim for USD 10,000.00. The expense was incurred on July 5, 2026, for a weekend executive retreat at a luxury resort. A receipt has been attached to support the claim. Please review this expense for policy compliance, fraud indicators, risk level, and approval eligibility before posting it to the ERP system.
 
@@ -60,7 +65,8 @@ Mark Johnson (Employee ID: EMP-002) from the Marketing department submitted a tr
 * ERP posting deferred pending manager decision.
 * Slack notification sent to the approver.
 Outcome: The system detects a high-risk policy exception, prevents automatic approval, and escalates the claim for human review.
-Demo 2 expected UI state
+
+*Note: Demo 2 expected UI state is shown in the dashboard.*
 
 # Demo 3: Prompt Injection Expense
 
@@ -78,8 +84,13 @@ Alex Brown (Employee ID: EMP-003) from the Engineering department submitted a so
 * ERP posting blocked pending manager decision.
 * Slack security alert sent to the approver.
 Outcome: The system detects and blocks a prompt injection attempt, prevents unauthorized AI approval, and escalates the claim for human review.
-Demo 3 expected UI state
-Demo 4: Missing Receipt Expense
+
+*Note: Demo 3 expected UI state is shown in the dashboard.*
+
+---
+
+# Demo 4: Missing Receipt Expense
+
 Judge action: Paste this claim into Submit Expense, attach receipt only where stated, and click Process Claim.
 Mary Wilson (Employee ID: EMP-004) from the Operations department submitted a travel expense claim for USD 740.25 for a Delta Airlines flight taken to visit a supplier on July 1, 2026. No receipt was attached to support the claim. Please review this expense for policy compliance, missing documentation, fraud indicators, risk level, and approval eligibility before posting it to the ERP system.
 
@@ -95,4 +106,5 @@ Mary Wilson (Employee ID: EMP-004) from the Operations department submitted a tr
 * ERP posting deferred pending manager decision.
 * Slack notification sent to the approver.
 Outcome: The system detects a documentation policy violation, blocks automatic approval, and prevents unsupported expenses from being posted to the ERP system.
-Demo 4 expected UI state
+
+*Note: Demo 4 expected UI state is shown in the dashboard.*
