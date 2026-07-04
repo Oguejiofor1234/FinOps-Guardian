@@ -31,7 +31,7 @@ Rather than demonstrating isolated examples of AI agents, FinOps Guardian combin
 
 ## 🏛️ 3. Architecture & Data Flow
 
-### Architectural Overview
+### Compliance Pipeline Flowchart
 The system coordinates three specialized LLM agents and deterministic filters linked in a structured workflow:
 
 ```mermaid
