@@ -54,6 +54,12 @@ graph TD
 #### 2. Workflow Graph
 ![Workflow Graph](docs/images/workflow_graph.png)
 
+#### 3. Sequence Diagram
+![Sequence Diagram](docs/images/sequence_diagram.png)
+
+#### 4. Evaluation Chart Result
+![Evaluation Chart Result](docs/images/evaluation_chart_result.png)
+
 ---
 
 ## 📊 4. Evaluation & Metrics Result
@@ -62,8 +68,6 @@ Using the ADK Quality framework, the agent was tested across a diverse evaluatio
 * **Security Robustness**: Blocking 100% of jailbreaks and prompt injection tricks.
 * **Structured Parsing Correctness**: Successfully identifying amounts, dates, and vendors.
 
-#### 3. Evaluation Chart Result
-![Evaluation Chart Result](docs/images/evaluation_chart_result.png)
 
 ---
 
