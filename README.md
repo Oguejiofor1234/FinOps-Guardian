@@ -86,6 +86,15 @@ Since the live Vertex AI multi-agent workflow processes claims and resolves MCP 
 
 This presentation harness is integrated directly into the UI dashboard layer, allowing manual evaluators to inspect the multi-agent orchestration at a comfortable, readable speed.
 
+### 🛠️ How It Works Under the Hood
+To maintain complete system integrity, the **underlying backend agent execution remains 100% real and identical in both modes**:
+1. Regardless of the Demo Mode toggle, submitting an expense sends a live POST request to the FastAPI server (`/expenses/submit`).
+2. The backend runs the real Vertex AI Root Agent, Auditor Agent, security guardrails, and commits records to the database ledger using live MCP servers.
+3. **If Demo Mode is Disabled**: The frontend immediately updates the compliance stream, dashboard spend totals, and ledger table as soon as the API response arrives.
+4. **If Demo Mode is Enabled (Asynchronous Presentation Buffering)**: The frontend intercepts the real JSON payload returned by the backend and uses a paced visual playback engine to output the logs and animate active agent indicators step-by-step.
+
+This separation of concerns demonstrates a production-ready approach to UX design and observability for rapid, non-deterministic agent workflows.
+
 ---
 
 ## 📁 5. Directory Structure
