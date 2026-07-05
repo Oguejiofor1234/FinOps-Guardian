@@ -76,6 +76,18 @@ Using the ADK Quality framework, the agent was tested across a diverse evaluatio
 
 ---
 
+## 🎭 Cinematic Demo Mode
+FinOps Guardian includes a built-in, optional **Cinematic Demo Mode** designed specifically for video recordings, live demonstrations, and judge walkthroughs.
+
+Since the live Vertex AI multi-agent workflow processes claims and resolves MCP commands very quickly, it can be difficult for human reviewers to trace the execution path in real time. The Cinematic Demo Mode solves this by:
+* **Paced Event Playback**: Slows down and buffers compliance stream events (3.0-second delay per phase) so reviewers can follow the step-by-step logic.
+* **Component-Level Progress Tracking**: Displays a dynamic status banner in the UI showing which agent or MCP tool is currently active (e.g., *Guardrails Scanning*, *Root Agent Routing*, *Auditor Validating*, *Analyst Mapping*, or *Ledger Committing*).
+* **Interactive Test Scenarios**: Includes quick-fill dashboard buttons to immediately load standard edge cases (valid claims, weekend policy flags, missing receipts, and prompt injection attacks).
+
+This presentation harness is integrated directly into the UI dashboard layer, allowing manual evaluators to inspect the multi-agent orchestration at a comfortable, readable speed.
+
+---
+
 ## 📁 5. Directory Structure
 ```
 finops-guardian/
