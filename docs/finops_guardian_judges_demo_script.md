@@ -25,6 +25,16 @@ This script helps judges test FinOps Guardian, a multi-agent enterprise AI app f
 * The compliance stream clearly states the reason for each decision.
 * Slack/email notifications and dashboard counters update after processing.
 
+# Cinematic Demo Simulation
+
+When testing, once you click **Process Claim**, you will witness the compliance log stream executing each phase sequentially, complete with animated progress indicators showing exactly which component is active:
+1. **🛡️ Guardrails Scanning** (PII Shield checking for sensitive data & injections)
+2. **🤖 Root Agent Orchestrating** (Root Router dispatching parsed elements to agents)
+3. **📋 Auditor Validating Policy** (Compliance Auditor checking expense policy rules)
+4. **📊 Analyst Mapping Ledger** (Analyst Agent mapping accounts & CC codes)
+5. **📨 Notification Agent Sending Alert** (Notification MCP dispatching Slack & Email alerts)
+6. **✅ Workflow Complete** (Finalizing database transaction commits)
+
 # Demo 1: Low-Risk Expense
 
 Judge action: Click the **Valid Claim (Auto-Pass)** quick-fill button, or paste the claim description below into the text area, then click **Process Claim**.

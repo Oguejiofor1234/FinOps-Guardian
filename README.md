@@ -160,6 +160,10 @@ A complete walk-through of testing scenario scripts is located inside:
 
 ### Scenario Prompts
 
+> [!NOTE]
+> **Cinematic Demo Simulation**: Once you click **Process Claim**, you will witness the compliance log stream executing each phase sequentially, complete with animated progress indicators showing exactly which component is active (from **Guardrails scanning**, **Root Agent orchestration**, **Auditor policy validation**, **Analyst ledger mapping**, **Notification alerts**, to **Workflow Complete**).
+
+
 #### Demo 1: Low-Risk Expense (Auto-Approved)
 
 **Judge Action**: Click the **Valid Claim (Auto-Pass)** quick-fill button, or paste the claim description below into the text area, then click **Process Claim**.
