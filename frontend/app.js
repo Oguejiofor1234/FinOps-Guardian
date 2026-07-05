@@ -2,6 +2,7 @@
 
 const USER_ID = "dashboard_user";
 let currentModalSessionId = null;
+let isAnimatingDemo = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     // Initial fetch of metrics and audit logs
@@ -112,6 +113,34 @@ function addLogEntry(text, type = "info") {
     logEntries.scrollTop = logEntries.scrollHeight;
 }
 
+// Show a dynamic loading progress indicator in the compliance log stream
+function showLogProgressIndicator(text, icon = "⚙️") {
+    removeLogProgressIndicator();
+    
+    const logEntries = document.getElementById("log-entries");
+    if (!logEntries) return;
+
+    const entry = document.createElement("div");
+    entry.id = "log-loading-indicator";
+    entry.className = "log-entry progress-loading";
+    
+    entry.innerHTML = `
+        <span class="log-time">${icon}</span>
+        <span class="log-text">${text}<span class="spinner-dots"></span></span>
+    `;
+    
+    logEntries.appendChild(entry);
+    logEntries.scrollTop = logEntries.scrollHeight;
+}
+
+// Remove the progress indicator from the stream
+function removeLogProgressIndicator() {
+    const indicator = document.getElementById("log-loading-indicator");
+    if (indicator) {
+        indicator.remove();
+    }
+}
+
 function clearLiveLogs() {
     const logEntries = document.getElementById("log-entries");
     if (logEntries) {
@@ -174,12 +203,16 @@ async function refreshDashboard() {
         }
 
         // 4. Fetch Compliance Stream Logs
-        const streamResp = await fetch("/compliance-stream", {
-            headers: { "X-User-Role": "admin" }
-        });
-        if (streamResp.ok) {
-            const streamData = await streamResp.json();
-            renderComplianceStream(streamData.logs || []);
+        const demoModeCheckbox = document.getElementById("demo-mode-checkbox");
+        const isDemoMode = demoModeCheckbox && demoModeCheckbox.checked;
+        if (!isAnimatingDemo && !isDemoMode) {
+            const streamResp = await fetch("/compliance-stream", {
+                headers: { "X-User-Role": "admin" }
+            });
+            if (streamResp.ok) {
+                const streamData = await streamResp.json();
+                renderComplianceStream(streamData.logs || []);
+            }
         }
     } catch (err) {
         console.error("Dashboard refresh failed:", err);
@@ -343,14 +376,17 @@ function updateDemoBanner(text, progressPercentage, isVisible) {
 
 // Animated Demo Mode scheduler
 function animateWorkflowResult(result, text) {
+    isAnimatingDemo = true;
     const state = result.state || {};
-    const stepDuration = 1500; // time in ms per step
+    const stepDuration = 3000; // time in ms per step
 
     // Initial state: Guardrails (PII Shield)
     updateDemoBanner("🛡️ Guardrails Scanning...", 15, true);
+    showLogProgressIndicator("PII Shield checking for sensitive data & injections", "🛡️");
 
     // Step 2: Guardrails scanning output (PII Shield)
     setTimeout(() => {
+        removeLogProgressIndicator();
         const hasInjection = (state.risk_level === 'HIGH' && state.validation_error && state.validation_error.toLowerCase().includes('injection')) || text.toLowerCase().includes('ignore');
         if (hasInjection) {
             addLogEntry("PII Shield & Prompt Injection checks: Security Threat / Injection Attempt detected!", "error");
@@ -359,23 +395,27 @@ function animateWorkflowResult(result, text) {
         }
         setAgentIndicatorState('router');
         updateDemoBanner("🤖 Root Agent Orchestrating...", 35, true);
+        showLogProgressIndicator("Root Router dispatching parsed elements to agents", "🤖");
     }, stepDuration);
 
     // Step 3: Parser Agent (Root Router orchestrating)
     setTimeout(() => {
+        removeLogProgressIndicator();
         const hasInjection = (state.risk_level === 'HIGH' && state.validation_error && state.validation_error.toLowerCase().includes('injection')) || text.toLowerCase().includes('ignore');
         if (hasInjection) {
             addLogEntry("Root Router: Bypassing parsing due to security threat. Escalating claim.", "warning");
             updateDemoBanner("🛑 Security Threat Blocked!", 100, true);
         } else {
             addLogEntry(`Parsed parameters: Merchant: "${state.title || 'Unparsed'}", Amount: $${state.amount || 0}, Category: "${state.category || 'Other'}", Date: ${state.expense_date || 'N/A'}`, "success");
-            updateDemoBanner("📋 Compliance Auditor Checking Policy...", 55, true);
+            updateDemoBanner("📋 Auditor Validating Policy...", 55, true);
+            showLogProgressIndicator("Compliance Auditor checking expense policy rules", "📋");
         }
         setAgentIndicatorState('auditor');
     }, stepDuration * 2);
 
     // Step 4: Compliance Auditor
     setTimeout(() => {
+        removeLogProgressIndicator();
         const hasInjection = (state.risk_level === 'HIGH' && state.validation_error && state.validation_error.toLowerCase().includes('injection')) || text.toLowerCase().includes('ignore');
         if (hasInjection) {
             addLogEntry("Compliance Auditor: Flagged for high-risk security warning.", "error");
@@ -387,20 +427,24 @@ function animateWorkflowResult(result, text) {
         
         if (result.status === 'paused') {
             updateDemoBanner("⏳ Awaiting Approver Action...", 100, true);
+            showLogProgressIndicator("Routing to Manager HITL Queue", "⏳");
         } else {
             updateDemoBanner("📊 Analyst Mapping Ledger...", 75, true);
             setAgentIndicatorState('analyst');
+            showLogProgressIndicator("Analyst Agent mapping accounts & CC codes", "📊");
         }
     }, stepDuration * 3);
 
     // Step 5: Analyst Agent (or Pause & Route)
     setTimeout(() => {
+        removeLogProgressIndicator();
         if (result.status === 'paused') {
             addLogEntry(`Compliance Auditor: Claim flagged. Routing to Manager HITL Queue. Awaiting: ${result.required_input === 'manager_decision' ? 'Manager Decision' : 'Receipt Upload'}`, "warning");
             addLogEntry("Notification MCP: Posted alert notice to Slack.", "warning");
             addToHitlQueue(result.session_id, state, result.required_input);
             resetAgentIndicators();
             unlockForm();
+            isAnimatingDemo = false;
             refreshDashboard();
             // Hide banner after short delay
             setTimeout(() => updateDemoBanner("", 0, false), 2000);
@@ -415,11 +459,13 @@ function animateWorkflowResult(result, text) {
             }
             setAgentIndicatorState('router');
             updateDemoBanner("📨 Notification Agent Sending Alert...", 90, true);
+            showLogProgressIndicator("Notification MCP dispatching Slack & Email alerts", "📨");
         }
     }, stepDuration * 4);
 
     // Step 6: Ledger Commit & Notifications (Root Router)
     setTimeout(() => {
+        removeLogProgressIndicator();
         if (result.status === 'paused') return; // already handled
         
         if (state.committed_to_erp) {
@@ -429,18 +475,196 @@ function animateWorkflowResult(result, text) {
             addLogEntry(`Claim finalized. Output: "${result.final_output || ''}"`, "info");
         }
         updateDemoBanner("✅ Workflow Complete", 100, true);
+        showLogProgressIndicator("Finalizing database transaction commits", "✅");
     }, stepDuration * 5);
 
     // Step 7: Reset and unlock
     setTimeout(() => {
+        removeLogProgressIndicator();
         resetAgentIndicators();
         unlockForm();
+        isAnimatingDemo = false;
         refreshDashboard();
         updateDemoBanner("", 0, false);
     }, stepDuration * 6);
 }
 
+// Resumed workflow steps animation for demo mode
+function animateWorkflowResultResume(result, actionType, sessionId) {
+    isAnimatingDemo = true;
+    const state = result.state || {};
+    const stepDuration = 3000; // time in ms per step
+
+    if (actionType === 'APPROVE') {
+        // Immediately
+        setAgentIndicatorState('router');
+        updateDemoBanner("🤖 Root Agent Resuming Workflow...", 35, true);
+        showLogProgressIndicator("Root Router routing approved claim to Analyst", "🤖");
+
+        // Step 1: Auditor validation confirmation
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            addLogEntry("Compliance Auditor: Manager approval received. Proceeding to ledger mapping.", "success");
+            updateDemoBanner("📊 Analyst Mapping Ledger...", 75, true);
+            setAgentIndicatorState('analyst');
+            showLogProgressIndicator("Analyst Agent mapping accounts & CC codes", "📊");
+        }, stepDuration);
+
+        // Step 2: Analyst Agent mapping
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            if (state.gl_code) {
+                addLogEntry(`Analyst Agent: Auto-mapped to GL Code: ${state.gl_code}, CC: ${state.cost_center}, Tax: ${state.tax_code}`, "success");
+                if (state.saving_insight) {
+                    addLogEntry(`Analyst Insight: "${state.saving_insight}"`, "info");
+                }
+            } else {
+                addLogEntry("Analyst Agent: Auto-mapping skipped.", "info");
+            }
+            setAgentIndicatorState('router');
+            updateDemoBanner("📨 Notification Agent Sending Alert...", 90, true);
+            showLogProgressIndicator("Notification MCP dispatching Slack & Email alerts", "📨");
+        }, stepDuration * 2);
+
+        // Step 3: Commit and notifications
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            if (state.committed_to_erp) {
+                addLogEntry(`Ledger MCP: Database write success. Committed to PostgreSQL.`, "success");
+                addLogEntry("Notification MCP: Posted confirmation alert to Slack & Email.", "success");
+            } else {
+                addLogEntry(`Claim finalized. Output: "${result.final_output || ''}"`, "info");
+            }
+            updateDemoBanner("✅ Workflow Complete", 100, true);
+        }, stepDuration * 3);
+
+        // Step 4: Reset & unlock
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            resetAgentIndicators();
+            isAnimatingDemo = false;
+            refreshDashboard();
+            updateDemoBanner("", 0, false);
+        }, stepDuration * 4);
+
+    } else if (actionType === 'REJECT') {
+        // Immediately
+        setAgentIndicatorState('router');
+        updateDemoBanner("🤖 Root Agent Handling Rejection...", 35, true);
+        showLogProgressIndicator("Root Router routing rejection notice", "🤖");
+
+        // Step 1: Auditor rejection execution
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            addLogEntry("Compliance Auditor: Rejection received from Manager. Transaction aborted.", "error");
+            addLogEntry("Notification MCP: Posted rejection alert notice to Slack.", "warning");
+            updateDemoBanner("❌ Workflow Terminated", 100, true);
+        }, stepDuration);
+
+        // Step 2: Reset & unlock
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            resetAgentIndicators();
+            isAnimatingDemo = false;
+            refreshDashboard();
+            updateDemoBanner("", 0, false);
+        }, stepDuration * 2);
+
+    } else if (actionType === 'REQUEST_RECEIPT') {
+        // Immediately
+        setAgentIndicatorState('router');
+        updateDemoBanner("🤖 Root Agent Requesting Receipt...", 35, true);
+        showLogProgressIndicator("Root Router routing receipt request", "🤖");
+
+        // Step 1: Auditor receipt request execution
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            addLogEntry("Compliance Auditor: Awaiting receipt upload from employee.", "warning");
+            addLogEntry("Notification MCP: Posted receipt request alert notice to Slack.", "warning");
+            updateDemoBanner("⏳ Awaiting Receipt Upload...", 100, true);
+        }, stepDuration);
+
+        // Step 2: Reset & unlock
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            resetAgentIndicators();
+            isAnimatingDemo = false;
+            refreshDashboard();
+            updateDemoBanner("", 0, false);
+        }, stepDuration * 2);
+
+    } else if (actionType === 'UPLOAD_RECEIPT') {
+        // Immediately
+        setAgentIndicatorState('router');
+        updateDemoBanner("🤖 Root Agent Resuming Workflow...", 35, true);
+        showLogProgressIndicator("Root Router routing receipt to Compliance Auditor", "🤖");
+
+        // Step 1: Auditor receipt validation
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            addLogEntry("Compliance Auditor: Receipt received. Validating policy rules...", "success");
+            
+            if (result.status === 'paused') {
+                updateDemoBanner("📋 Auditor Validating Policy...", 55, true);
+                showLogProgressIndicator("Compliance Auditor checking policy limits", "📋");
+            } else {
+                updateDemoBanner("📊 Analyst Mapping Ledger...", 75, true);
+                setAgentIndicatorState('analyst');
+                showLogProgressIndicator("Analyst Agent mapping accounts & CC codes", "📊");
+            }
+        }, stepDuration);
+
+        // Step 2: Policy checking outcome (or analyst mapping if completed)
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            if (result.status === 'paused') {
+                addLogEntry("Compliance Auditor: Category limit checks passed. Flagging for Manager Approval Decision.", "warning");
+                addLogEntry("Notification MCP: Posted alert notice to Slack.", "warning");
+                addToHitlQueue(sessionId, state, result.required_input);
+                resetAgentIndicators();
+                isAnimatingDemo = false;
+                refreshDashboard();
+                updateDemoBanner("⏳ Awaiting Approver Action...", 100, true);
+                setTimeout(() => updateDemoBanner("", 0, false), 2000);
+            } else {
+                if (state.gl_code) {
+                    addLogEntry(`Analyst Agent: Auto-mapped to GL Code: ${state.gl_code}, CC: ${state.cost_center}, Tax: ${state.tax_code}`, "success");
+                    if (state.saving_insight) {
+                        addLogEntry(`Analyst Insight: "${state.saving_insight}"`, "info");
+                    }
+                }
+                setAgentIndicatorState('router');
+                updateDemoBanner("📨 Notification Agent Sending Alert...", 90, true);
+                showLogProgressIndicator("Notification MCP dispatching Slack & Email alerts", "📨");
+            }
+        }, stepDuration * 2);
+
+        // Step 3: Ledger Commit & Complete (if completed)
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            if (result.status === 'paused') return; // already handled
+            
+            if (state.committed_to_erp) {
+                addLogEntry(`Ledger MCP: Database write success. Committed to PostgreSQL.`, "success");
+                addLogEntry("Notification MCP: Posted confirmation alert to Slack & Email.", "success");
+            }
+            updateDemoBanner("✅ Workflow Complete", 100, true);
+        }, stepDuration * 3);
+
+        // Step 4: Reset & unlock (if completed)
+        setTimeout(() => {
+            removeLogProgressIndicator();
+            if (result.status === 'paused') return; // already handled
+            resetAgentIndicators();
+            isAnimatingDemo = false;
+            refreshDashboard();
+            updateDemoBanner("", 0, false);
+        }, stepDuration * 4);
+    }
+}
+
 // Handle unstructured natural language submission
+
 async function handleNlpSubmit(e) {
     e.preventDefault();
     const textarea = document.getElementById("nlp-text");
@@ -655,13 +879,25 @@ async function managerDecision(sessionId, decision) {
         }
 
         // Output log results
-        processWorkflowResult({
-            status: result.session_status,
-            required_input: result.required_input,
-            state: result.state,
-            final_output: result.final_output,
-            session_id: sessionId
-        });
+        const demoModeCheckbox = document.getElementById("demo-mode-checkbox");
+        const isDemoMode = demoModeCheckbox && demoModeCheckbox.checked;
+        if (isDemoMode) {
+            animateWorkflowResultResume({
+                status: result.session_status,
+                required_input: result.required_input,
+                state: result.state,
+                final_output: result.final_output,
+                session_id: sessionId
+            }, decision, sessionId);
+        } else {
+            processWorkflowResult({
+                status: result.session_status,
+                required_input: result.required_input,
+                state: result.state,
+                final_output: result.final_output,
+                session_id: sessionId
+            });
+        }
         
     } catch (err) {
         addLogEntry(`Error sending manager decision: ${err.message}`, "error");
@@ -730,13 +966,25 @@ async function handleModalReceiptSubmit() {
             }
         }
 
-        processWorkflowResult({
-            status: result.session_status,
-            required_input: result.required_input,
-            state: result.state,
-            final_output: result.final_output,
-            session_id: currentModalSessionId
-        });
+        const demoModeCheckbox = document.getElementById("demo-mode-checkbox");
+        const isDemoMode = demoModeCheckbox && demoModeCheckbox.checked;
+        if (isDemoMode) {
+            animateWorkflowResultResume({
+                status: result.session_status,
+                required_input: result.required_input,
+                state: result.state,
+                final_output: result.final_output,
+                session_id: currentModalSessionId
+            }, 'UPLOAD_RECEIPT', currentModalSessionId);
+        } else {
+            processWorkflowResult({
+                status: result.session_status,
+                required_input: result.required_input,
+                state: result.state,
+                final_output: result.final_output,
+                session_id: currentModalSessionId
+            });
+        }
 
         // Reset input
         pathInput.value = "";

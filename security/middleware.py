@@ -20,7 +20,7 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 
 # Simple in-memory rate limiter: tracks timestamps of requests per IP
 RATE_LIMIT_WINDOW_SEC = 60
-MAX_REQUESTS_PER_WINDOW = 100
+MAX_REQUESTS_PER_WINDOW = 1000
 
 REQUEST_HISTORY = defaultdict(list)
 
@@ -32,6 +32,11 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+        # Skip rate limiting for static assets and favicon to save quota
+        path = request.url.path
+        if path.startswith("/static/") or path == "/favicon.ico":
+            return await call_next(request)
+
         # Resolve real client IP behind proxy (e.g. Cloud Run GFE)
         forwarded_for = request.headers.get("x-forwarded-for")
         if forwarded_for:
@@ -54,6 +59,7 @@ class RateLimitingMiddleware(BaseHTTPMiddleware):
             
         REQUEST_HISTORY[client_ip].append(now)
         return await call_next(request)
+
 
 
 class ContentSanitizationMiddleware(BaseHTTPMiddleware):

@@ -1,0 +1,34 @@
+# Exclude source control metadata
+.git/
+.gitignore
+.gcloudignore
+
+# Exclude virtual environments and local caches
+.venv/
+env/
+venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Exclude local build/deployment artifacts
+dist/
+build/
+*.egg-info/
+*.whl
+*.tar.gz
+
+# Exclude large development documentation and test files
+docs/
+artifacts/
+evals/
+tests/
+notification_logs.txt
+*.docx
+*.png
+*.jpg
+*.jpeg
+*.gif

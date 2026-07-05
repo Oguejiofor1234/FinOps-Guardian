@@ -189,7 +189,7 @@ def get_demo_settings():
     Returns whether DEMO_MODE is active based on the environment flag.
     """
     import os
-    demo_mode = os.getenv("DEMO_MODE", "false").lower() == "true"
+    demo_mode = os.getenv("DEMO_MODE", "true").lower() == "true"
     return {"demo_mode": demo_mode}
 
 

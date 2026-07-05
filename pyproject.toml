@@ -92,7 +92,17 @@ build-backend = "hatchling.build"
 pythonpath = "."
 asyncio_default_fixture_loop_scope = "function"
 
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/docs",
+  "/artifacts",
+  "/tests",
+  "/evals",
+  "/dist",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["app", "frontend", "api", "workflows", "agents", "mcp_servers", "security", "observability", "guardrails", "schemas"]
+
 
 
