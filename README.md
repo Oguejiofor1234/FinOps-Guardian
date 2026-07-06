@@ -49,12 +49,6 @@ Unlike traditional rule-based systems or standalone LLM applications, FinOps Gua
 
 ---
 
-## 💡 Why This Project Matters
-
-Rather than demonstrating isolated examples of AI agents, FinOps Guardian combines every major engineering concept from Google's AI Agents course into a single production-ready enterprise system. It showcases secure multi-agent orchestration, reusable agent skills, MCP-based integrations, deterministic guardrails, human oversight, comprehensive evaluation, observability, and cloud-native deployment, illustrating how modern agentic AI can safely automate financial compliance workflows at enterprise scale.
-
----
-
 ## 🏛️ 3. Architecture & Data Flow
 
 ### Compliance Pipeline Flowchart
