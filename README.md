@@ -1,7 +1,6 @@
 # 🛡️ FinOps Guardian: Automated Enterprise Expense Compliance Gatekeeper
 
-FinOps Guardian is an intelligent corporate expense compliance system built using Google's **Agent Development Kit (ADK)**. It acts as an automated agent-driven gatekeeper, checking every submitted corporate expense claim against policies, redacting Personally Identifiable Information (PII), blocking prompt injection attacks, mapping expense items to standard accounting ledgers, and routing exceptions to managers for Human-in-the-Loop approval before committing verified records to an ERP database ledger.
-
+FinOps Guardian is an intelligent corporate expense FinOps Guardian is an enterprise-grade AI application that automates expense compliance, fraud detection, accounting classification, and ERP integration using Google's Agent Development Kit (ADK), FastAPI, and Model Context Protocol (MCP) servers. The project demonstrates how modern agentic AI can safely automate financial workflows while maintaining transparency, security, and human oversight. It combines natural-language understanding with deterministic policy enforcement, ensuring that decisions remain explainable, auditable, and suitable for production environments.
 
 ## 📖 1. The Problem
 
