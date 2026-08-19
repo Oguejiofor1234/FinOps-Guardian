@@ -78,6 +78,22 @@ jobs:
             --service-account "$SA" \
             --update-env-vars "${ENV_VARS}"
 
+      - name: Deploy Dashboard UI to Cloud Run
+        run: |
+          PROJ="${{ vars.STAGING_PROJECT_ID || 't-decoder-500523-d7' }}"
+          PROJ=$(echo "$PROJ" | sed -E 's/^--[a-zA-Z0-9_-]+[= ]*//' | tr -d ' "')
+
+          REG="${{ vars.REGION || 'us-east1' }}"
+          REG=$(echo "$REG" | sed -E 's/^--[a-zA-Z0-9_-]+[= ]*//' | tr -d ' "')
+
+          gcloud run deploy finops-guardian-ui \
+            --source . \
+            --port 8080 \
+            --allow-unauthenticated \
+            --region "$REG" \
+            --project "$PROJ" \
+            --quiet
+
       - name: Fetch Auth Token
         id: fetch-token
         run: |
