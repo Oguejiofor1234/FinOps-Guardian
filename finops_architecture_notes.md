@@ -1,6 +1,6 @@
 # Study Notes: FinOps Guardian Project Architecture
 
-Welcome to your comprehensive study guide for the **FinOps Guardian** project. This document explains the full architecture, components, workflows, and testing plans of this intelligent corporate expense compliance system in a beginner-friendly manner.
+Welcome to the comprehensive study guide for the **FinOps Guardian** project. This document explains the full architecture, components, workflows, and testing plans of this intelligent corporate expense compliance system in a beginner-friendly manner.
 
 ---
 
@@ -70,7 +70,7 @@ The workflow is constructed as a **directed graph** using the ADK 2.0 Graph API:
 The project directory follows the recommended template from `agents-cli`:
 
 ```
-spend_sentinel/
+finops-guardian/
 ├── app/                        # Main application logic
 │   ├── __init__.py             # Exposes the App object
 │   ├── agent.py                # Defines LLM Agents and the Workflow graph
@@ -89,10 +89,9 @@ spend_sentinel/
 ├── Dockerfile                  # Packaging instructions for container hosting
 └── README.md                   # Setup and usage guide
 ```
-
 ---
 
-## 🛠️ 5. Technologies to Use
+## 🛠️ 5. Technologies  Used
 
 * **Google Antigravity ADK 2.0:** The primary library for agent declaration and workflow graph construction.
 * **FastAPI:** A high-performance Python web framework for exposing REST API endpoints and WebSocket streams.
