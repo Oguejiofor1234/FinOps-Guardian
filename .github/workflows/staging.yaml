@@ -64,11 +64,15 @@ jobs:
 
       - name: Deploy to Staging (Agent Runtime)
         run: |
+          ENV_VARS="COMMIT_SHA=${{ github.sha }}"
+          if [ -n "${{ vars.LOGS_BUCKET_NAME_STAGING }}" ]; then
+            ENV_VARS="${ENV_VARS},LOGS_BUCKET_NAME=${{ vars.LOGS_BUCKET_NAME_STAGING }}"
+          fi
           uvx google-agents-cli@1.1.0 deploy \
             --project ${{ vars.STAGING_PROJECT_ID || 't-decoder-500523-d7' }} \
             --region ${{ vars.REGION || 'us-east1' }} \
             --service-account=${{ vars.APP_SERVICE_ACCOUNT_STAGING || 'finops-cicd-runner@t-decoder-500523-d7.iam.gserviceaccount.com' }} \
-            --update-env-vars="COMMIT_SHA=${{ github.sha }},LOGS_BUCKET_NAME=${{ vars.LOGS_BUCKET_NAME_STAGING || '' }}"
+            --update-env-vars="${ENV_VARS}"
 
       - name: Fetch Auth Token
         id: fetch-token
@@ -88,13 +92,10 @@ jobs:
           --html=tests/load_test/.results/report.html
 
       - name: Export Load Test Results to GCS
+        if: "${{ vars.LOGS_BUCKET_NAME_STAGING != '' }}"
         run: |
           TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-          gcloud storage cp --recursive tests/load_test/.results gs://${{ vars.LOGS_BUCKET_NAME_STAGING }}/load-test-results/results-${TIMESTAMP} --quiet
-          echo "_________________________________________________________________________"
-          echo "Load test results copied to gs://${{ vars.LOGS_BUCKET_NAME_STAGING }}/load-test-results/results-${TIMESTAMP}"
-          echo "HTTP link: https://console.cloud.google.com/storage/browser/${{ vars.LOGS_BUCKET_NAME_STAGING }}/load-test-results/results-${TIMESTAMP}"
-          echo "_________________________________________________________________________"
+          gcloud storage cp --recursive tests/load_test/.results gs://${{ vars.LOGS_BUCKET_NAME_STAGING }}/load-test-results/results-${TIMESTAMP} --quiet || true
 
   call_production_workflow:
     needs: deploy_and_test_staging
