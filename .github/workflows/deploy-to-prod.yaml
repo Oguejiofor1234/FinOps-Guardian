@@ -75,9 +75,19 @@ jobs:
           if [ -n "${{ vars.LOGS_BUCKET_NAME_PROD }}" ]; then
             ENV_VARS="${ENV_VARS},LOGS_BUCKET_NAME=${{ vars.LOGS_BUCKET_NAME_PROD }}"
           fi
+
+          PROJ="${{ vars.PROD_PROJECT_ID || 't-decoder-500523-d7' }}"
+          PROJ=$(echo "$PROJ" | sed -E 's/^--[a-zA-Z0-9_-]+[= ]*//' | tr -d ' "')
+
+          REG="${{ vars.REGION || 'us-east1' }}"
+          REG=$(echo "$REG" | sed -E 's/^--[a-zA-Z0-9_-]+[= ]*//' | tr -d ' "')
+
+          SA="${{ vars.APP_SERVICE_ACCOUNT_PROD || 'finops-cicd-runner@t-decoder-500523-d7.iam.gserviceaccount.com' }}"
+          SA=$(echo "$SA" | sed -E 's/^--[a-zA-Z0-9_-]+[= ]*//' | tr -d ' "')
+
           uvx google-agents-cli@1.1.0 deploy \
-            --project ${{ vars.PROD_PROJECT_ID || 't-decoder-500523-d7' }} \
-            --region ${{ vars.REGION || 'us-east1' }} \
-            --service-account=${{ vars.APP_SERVICE_ACCOUNT_PROD || 'finops-cicd-runner@t-decoder-500523-d7.iam.gserviceaccount.com' }} \
-            --update-env-vars="${ENV_VARS}"
+            --project "$PROJ" \
+            --region "$REG" \
+            --service-account "$SA" \
+            --update-env-vars "${ENV_VARS}"
 
