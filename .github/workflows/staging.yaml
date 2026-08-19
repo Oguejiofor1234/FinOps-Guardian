@@ -19,12 +19,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'app/**'
-      - 'tests/**'
-      - 'deployment/**'
-      - '.github/workflows/**'
-      - 'uv.lock'
 
 jobs:
   deploy_and_test_staging:
