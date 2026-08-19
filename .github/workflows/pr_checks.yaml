@@ -38,10 +38,10 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: 'projects/${{ vars.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ secrets.WIF_POOL_ID }}/providers/${{ secrets.WIF_PROVIDER_ID }}'
-          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
+          workload_identity_provider: 'projects/${{ vars.GCP_PROJECT_NUMBER || 195678548981 }}/locations/global/workloadIdentityPools/${{ secrets.WIF_POOL_ID || vars.WIF_POOL_ID || ''finops-guardian-pool'' }}/providers/${{ secrets.WIF_PROVIDER_ID || vars.WIF_PROVIDER_ID || ''finops-guardian-oidc'' }}'
+          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT || vars.GCP_SERVICE_ACCOUNT || ''finops-cicd-runner@t-decoder-500523-d7.iam.gserviceaccount.com'' }}'
           create_credentials_file: true
-          project_id: ${{ vars.CICD_PROJECT_ID }}
+          project_id: ${{ vars.CICD_PROJECT_ID || 't-decoder-500523-d7' }}
 
 
       - name: Set up Python 3.12
