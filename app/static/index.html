@@ -70,9 +70,11 @@
                     <h1>Expense Compliance Dashboard</h1>
                     <p class="subtitle">AI-assisted real-time policy auditing & ledger ingestion</p>
                 </div>
-                <div class="user-profile">
-                    <span class="avatar">👤</span>
-                    <span class="username">Admin Session</span>
+                <div class="system-status" style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="btn-reset" id="reset-dashboard-btn" onclick="resetDashboard()" title="Clear all metrics and reset dashboard to zero">
+                        🔄 Reset to Zero
+                    </button>
+                    <span class="badge badge-pulse">● System Operational</span>
                 </div>
             </header>
 
@@ -80,38 +82,38 @@
             <section class="metrics-grid">
                 <div class="metric-card glass">
                     <div class="metric-header">
-                        <span class="metric-label">Total Audited Claims</span>
+                        <span class="metric-label">Approved Spend</span>
                         <span class="metric-icon">💰</span>
                     </div>
-                    <div class="metric-value">$148,250.00</div>
-                    <div class="metric-trend up">↗ 12.5% this month</div>
+                    <div class="metric-value" id="metric-approved-spend">$0.00</div>
+                    <div class="metric-trend up" id="metric-approved-count">0 Claims approved</div>
                 </div>
                 
                 <div class="metric-card glass">
                     <div class="metric-header">
-                        <span class="metric-label">Policy Violations</span>
+                        <span class="metric-label">High-Risk Flagged</span>
                         <span class="metric-icon alert-icon">⚠️</span>
                     </div>
-                    <div class="metric-value">12</div>
-                    <div class="metric-trend down">↘ 4% from last month</div>
+                    <div class="metric-value text-red" id="metric-flagged-count">0</div>
+                    <div class="metric-trend text-red" id="metric-flagged-percentage">0% of total audited</div>
                 </div>
 
                 <div class="metric-card glass">
                     <div class="metric-header">
-                        <span class="metric-label">Compliance Ratio</span>
-                        <span class="metric-icon">🛡️</span>
+                        <span class="metric-label">HITL Queue size</span>
+                        <span class="metric-icon">⏳</span>
                     </div>
-                    <div class="metric-value">94.8%</div>
-                    <div class="metric-trend up">↗ 1.2% this month</div>
+                    <div class="metric-value text-amber" id="metric-pending-count">0</div>
+                    <div class="metric-trend text-amber">Awaiting manager review</div>
                 </div>
 
                 <div class="metric-card glass">
                     <div class="metric-header">
-                        <span class="metric-label">Tax Deduction Savings</span>
-                        <span class="metric-icon">💡</span>
+                        <span class="metric-label">Rejected Claims</span>
+                        <span class="metric-icon">❌</span>
                     </div>
-                    <div class="metric-value">$4,820.00</div>
-                    <div class="metric-trend up">↗ 8.9% target achieved</div>
+                    <div class="metric-value" id="metric-rejected-count">0</div>
+                    <div class="metric-trend">Prevented non-compliance</div>
                 </div>
             </section>
 
@@ -204,27 +206,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>CLAIM-809</td>
-                                <td>John Doe</td>
-                                <td>Sunday Steakhouse</td>
-                                <td class="amount-val">$320.00</td>
-                                <td><span class="flag flag-high">Weekend Expense</span> <span class="flag flag-high">Exceeded Meals limit ($75)</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-success">Approve</button>
-                                    <button class="btn btn-sm btn-danger">Reject</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>CLAIM-812</td>
-                                <td>Sarah Jenkins</td>
-                                <td>Github Enterprise</td>
-                                <td class="amount-val">$600.00</td>
-                                <td><span class="flag flag-med">Software exceeds $500 limit</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-success">Approve</button>
-                                    <button class="btn btn-sm btn-danger">Reject</button>
-                                </td>
+                            <tr class="empty-row">
+                                <td colspan="6">No claims currently pending review. Submissions requiring approval will appear here.</td>
                             </tr>
                         </tbody>
                     </table>
