@@ -713,10 +713,19 @@ async def reset_dashboard_data():
     # Reset in-memory session stores if available
     try:
         session_service = services.get_session_service()
-        if hasattr(session_service, "_sessions"):
-            session_service._sessions.clear()
-        elif hasattr(session_service, "sessions"):
+        app_name = app.state.agent_app_name
+        sessions_resp = await session_service.list_sessions(app_name=app_name)
+        for s in (sessions_resp.sessions or []):
+            try:
+                await session_service.delete_session(
+                    app_name=app_name, user_id=s.user_id, session_id=s.id
+                )
+            except Exception:
+                pass
+        if hasattr(session_service, "sessions") and isinstance(session_service.sessions, dict):
             session_service.sessions.clear()
+        if hasattr(session_service, "_sessions") and isinstance(session_service._sessions, dict):
+            session_service._sessions.clear()
     except Exception as e:
         logger.warning(f"Failed to clear session service: {e}")
 

@@ -255,7 +255,9 @@ async function resetDashboard() {
             renderPendingQueue([]);
             
             // Also clear compliance stream if present
-            clearComplianceStream();
+            if (typeof clearLiveLogs === "function") {
+                clearLiveLogs();
+            }
             
             showToast("FinOps Dashboard and Audit Trail reset to zero!", "success");
             
