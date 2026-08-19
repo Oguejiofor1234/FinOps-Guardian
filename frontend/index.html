@@ -78,7 +78,10 @@
                     <h1>Expense Compliance Dashboard</h1>
                     <p class="subtitle">AI-assisted real-time policy auditing & ledger ingestion</p>
                 </div>
-                <div class="system-status">
+                <div class="system-status" style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="btn-reset" id="reset-dashboard-btn" onclick="resetDashboard()" title="Clear all metrics and reset dashboard to zero">
+                        🔄 Reset to Zero
+                    </button>
                     <span class="badge badge-pulse">● System Operational</span>
                 </div>
             </header>

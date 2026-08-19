@@ -219,6 +219,64 @@ async function refreshDashboard() {
     }
 }
 
+// Reset all dashboard metrics, audit logs, and ledger data to zero
+async function resetDashboard() {
+    if (!confirm("Are you sure you want to reset the dashboard and clear all audit logs to zero?")) {
+        return;
+    }
+    
+    const btn = document.getElementById("reset-dashboard-btn");
+    const originalText = btn ? btn.innerHTML : "🔄 Reset to Zero";
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Resetting...";
+    }
+    
+    try {
+        const resp = await fetch("/reset", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-User-Role": "admin"
+            }
+        });
+        
+        if (resp.ok) {
+            // Immediate local UI zeroing
+            document.getElementById("metric-approved-spend").textContent = "$0.00";
+            document.getElementById("metric-approved-count").textContent = "0 Claims approved";
+            document.getElementById("metric-flagged-count").textContent = "0";
+            document.getElementById("metric-flagged-percentage").textContent = "0% of total audited";
+            document.getElementById("metric-pending-count").textContent = "0";
+            document.getElementById("metric-rejected-count").textContent = "0";
+            
+            // Re-render empty tables
+            renderAuditTrail([]);
+            renderPendingQueue([]);
+            
+            // Also clear compliance stream if present
+            clearComplianceStream();
+            
+            showToast("FinOps Dashboard and Audit Trail reset to zero!", "success");
+            
+            // Refresh from backend to sync
+            await refreshDashboard();
+        } else {
+            const err = await resp.json();
+            showToast(`Reset failed: ${err.detail || 'Server error'}`, "error");
+        }
+    } catch (e) {
+        console.error("Reset error:", e);
+        showToast("Error connecting to server to reset dashboard.", "error");
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    }
+}
+
+
 // Render the Human-in-the-Loop review queue
 function renderPendingQueue(pendingList) {
     const tableBody = document.querySelector("#hitl-table tbody");

@@ -255,6 +255,40 @@ body {
     100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.35); }
 }
 
+.btn-reset {
+    background: rgba(239, 68, 68, 0.08);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    padding: 0.45rem 0.95rem;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.btn-reset:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ffffff;
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-reset:active {
+    transform: translateY(0);
+}
+
+.btn-reset:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Glassmorphism Cards */
 .glass {
     background: rgba(255, 255, 255, 0.02);

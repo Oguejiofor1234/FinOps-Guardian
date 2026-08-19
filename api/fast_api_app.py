@@ -690,7 +690,53 @@ async def get_pending_sessions():
     return {"pending": pending}
 
 
+@app.post("/reset", dependencies=[Depends(require_role([ROLE_MANAGER, ROLE_ADMIN]))])
+@app.post("/clear", dependencies=[Depends(require_role([ROLE_MANAGER, ROLE_ADMIN]))])
+async def reset_dashboard_data():
+    """
+    Clears all expense claims, resets the ledger database to 0, 
+    and clears in-memory session states to reset the FinOps dashboard to zero.
+    """
+    db_url = os.getenv("DATABASE_URL")
+    db_cleared = False
+    if db_url:
+        try:
+            import psycopg
+            with psycopg.connect(db_url) as conn:
+                with conn.cursor() as cur:
+                    cur.execute("TRUNCATE TABLE expenses RESTART IDENTITY;")
+                conn.commit()
+            db_cleared = True
+        except Exception as e:
+            logger.warning(f"Failed to truncate PostgreSQL expenses table: {e}")
+
+    # Reset in-memory session stores if available
+    try:
+        session_service = services.get_session_service()
+        if hasattr(session_service, "_sessions"):
+            session_service._sessions.clear()
+        elif hasattr(session_service, "sessions"):
+            session_service.sessions.clear()
+    except Exception as e:
+        logger.warning(f"Failed to clear session service: {e}")
+
+    return {
+        "status": "success",
+        "message": "FinOps Dashboard and Audit Trail successfully reset to zero.",
+        "metrics": {
+            "approved_spend": "$0.00",
+            "approved_count": 0,
+            "high_risk_flagged": 0,
+            "hitl_queue_size": 0,
+            "rejected_claims": 0,
+            "audit_trail": []
+        },
+        "db_cleared": db_cleared,
+    }
+
+
 if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
